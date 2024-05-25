@@ -48,6 +48,7 @@ import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.io.IOException;
 
 @LuaWhitelist
 @LuaTypeDoc(
@@ -362,6 +363,43 @@ public class ClientAPI {
     @LuaMethodDoc("client.has_shader_pack")
     public static boolean hasShaderPack() {
         return HAS_IRIS && net.irisshaders.iris.api.v0.IrisApi.getInstance().isShaderPackInUse() || OPTIFINE_LOADED.get() && hasOptifineShader();
+    }
+	
+	@LuaWhitelist
+    @LuaMethodDoc("client.set_shader_pack_name")
+    public static boolean setShaderPackName(@LuaNotNil String name) {
+        if (HAS_IRIS) {
+            net.irisshaders.iris.Iris.getIrisConfig().setShaderPackName(name);
+			return true;
+		} else {
+			return false;
+		}
+    }
+	
+	@LuaWhitelist
+    @LuaMethodDoc("client.iris_save_config")
+    public static boolean irisSaveConfig() {
+		try {
+            if (HAS_IRIS) {
+				net.irisshaders.iris.Iris.getIrisConfig().save();
+				return true;
+            }
+        }catch (IOException ignored) {
+        }
+		return false;
+    }
+	
+	@LuaWhitelist
+    @LuaMethodDoc("client.iris_reload")
+    public static boolean irisReload() {
+		try {
+            if (HAS_IRIS) {
+				net.irisshaders.iris.Iris.reload();
+				return true;
+            }
+        }catch (IOException ignored) {
+        }
+		return false;
     }
 
     @LuaWhitelist
