@@ -364,7 +364,14 @@ public class ClientAPI {
     public static boolean hasShaderPack() {
         return HAS_IRIS && net.irisshaders.iris.api.v0.IrisApi.getInstance().isShaderPackInUse() || OPTIFINE_LOADED.get() && hasOptifineShader();
     }
-	
+
+    @LuaWhitelist
+    @LuaMethodDoc("client.set_shader_pack_name")
+    public void getIrisConfig() {
+        if (!HAS_IRIS) return;
+        net.irisshaders.iris.Iris.getIrisConfig();
+    }
+
 	@LuaWhitelist
 	@LuaMethodDoc("client.set_shader_pack_name")
     public static void setShaderPackName(@LuaNotNil String name) {
@@ -381,7 +388,7 @@ public class ClientAPI {
         }catch (IOException ignored) {
         }
     }
-	
+
 	@LuaWhitelist
 	@LuaMethodDoc("client.iris_reload")
     public static void irisReload() {
