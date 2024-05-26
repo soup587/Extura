@@ -366,40 +366,30 @@ public class ClientAPI {
     }
 	
 	@LuaWhitelist
-    @LuaMethodDoc("client.set_shader_pack_name")
-    public static boolean setShaderPackName(@LuaNotNil String name) {
-        if (HAS_IRIS) {
-            net.irisshaders.iris.Iris.getIrisConfig().setShaderPackName(name);
-			return true;
-		} else {
-			return false;
-		}
+	@LuaMethodDoc("client.set_shader_pack_name")
+    public static void setShaderPackName(@LuaNotNil String name) {
+        if (!HAS_IRIS) return;
+        net.irisshaders.iris.Iris.getIrisConfig().setShaderPackName(name);
     }
 	
 	@LuaWhitelist
-    @LuaMethodDoc("client.iris_save_config")
-    public static boolean irisSaveConfig() {
+	@LuaMethodDoc("client.iris_save_config")
+    public static void irisSaveConfig() {
+		if (!HAS_IRIS) return;
 		try {
-            if (HAS_IRIS) {
-				net.irisshaders.iris.Iris.getIrisConfig().save();
-				return true;
-            }
+			net.irisshaders.iris.Iris.getIrisConfig().save();
         }catch (IOException ignored) {
         }
-		return false;
     }
 	
 	@LuaWhitelist
-    @LuaMethodDoc("client.iris_reload")
-    public static boolean irisReload() {
+	@LuaMethodDoc("client.iris_reload")
+    public static void irisReload() {
+		if (!HAS_IRIS) return;
 		try {
-            if (HAS_IRIS) {
-				net.irisshaders.iris.Iris.reload();
-				return true;
-            }
+			net.irisshaders.iris.Iris.reload();
         }catch (IOException ignored) {
         }
-		return false;
     }
 
     @LuaWhitelist
